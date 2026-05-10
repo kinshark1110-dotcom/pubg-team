@@ -876,7 +876,11 @@
     { name: '空投捡漏王', time: '昨天', text: '今天又吃鸡了！四个人打配合真的爽' },
   ];
 
-  let comments = [...initialComments];
+  let comments = JSON.parse(localStorage.getItem('mark-comments')) || [...initialComments];
+
+  function saveComments() {
+    localStorage.setItem('mark-comments', JSON.stringify(comments));
+  }
 
   function setComment(text) {
     document.getElementById('commentInput').value = text;
@@ -911,6 +915,7 @@
     if (!text) { alert('留言内容不能为空'); return; }
     const now = new Date();
     comments.unshift({ name, time: '刚刚', text });
+    saveComments();
     document.getElementById('commentInput').value = '';
     renderComments();
   }
