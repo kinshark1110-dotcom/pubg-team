@@ -621,6 +621,16 @@
     .comments-section { padding: 24px 16px; }
   }
 </style>
+<!-- Music Player -->
+<div style="position:fixed;bottom:20px;right:20px;z-index:200;">
+  <button id="musicToggle" onclick="toggleMusic()" style="background:var(--accent);border:none;color:#000;width:44px;height:44px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(232,129,10,0.4);transition:all 0.3s;">
+    🔊
+  </button>
+</div>
+<audio id="bgMusic" loop>
+  <source src="https://raw.githubusercontent.com/kinshark1110-dotcom/pubg-team/main/pubg-music.ogg" type="audio/ogg">
+</audio>
+
 </head>
 <body>
 
@@ -908,6 +918,30 @@
   document.getElementById('commentInput').addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.key === 'Enter') addComment();
   });
+
+let isPlaying = false;
+
+function toggleMusic() {
+  const audio = document.getElementById('bgMusic');
+  const btn = document.getElementById('musicToggle');
+  if (isPlaying) {
+    audio.pause();
+    btn.textContent = '🔇';
+    btn.style.background = '#333';
+    isPlaying = false;
+  } else {
+    audio.play().catch(() => {});
+    btn.textContent = '🔊';
+    btn.style.background = 'var(--accent)';
+    isPlaying = true;
+  }
+}
+
+// Auto-play on page load (may be blocked by browser)
+document.addEventListener('DOMContentLoaded', function() {
+  const audio = document.getElementById('bgMusic');
+  audio.volume = 0.4;
+});
 
   renderVideos();
   renderComments();
