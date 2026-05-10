@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PUBG战队 - 社区交流</title>
+<title>MARK 战队 - 社区交流</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
 
@@ -111,11 +111,28 @@
     50% { transform: translateX(-50%) translateY(8px); }
   }
 
+  /* Team Intro */
+  .team-intro {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .team-intro p {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 15px;
+    color: #ccc;
+    line-height: 2;
+    letter-spacing: 1px;
+  }
+
   /* Stats Bar */
   .stats-bar {
     display: flex;
     justify-content: center;
-    gap: 0;
     flex-wrap: wrap;
     background: var(--surface);
     border-top: 1px solid var(--border);
@@ -123,7 +140,7 @@
   }
 
   .stat-item {
-    padding: 28px 40px;
+    padding: 28px 48px;
     text-align: center;
     border-right: 1px solid var(--border);
   }
@@ -144,7 +161,7 @@
     margin-top: 6px;
   }
 
-  /* Gallery */
+  /* Section */
   .section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
 
   .section-title {
@@ -164,6 +181,7 @@
     margin-bottom: 40px;
   }
 
+  /* Gallery */
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -176,7 +194,9 @@
     overflow: hidden;
     cursor: pointer;
     border: 1px solid var(--border);
+    transition: border-color 0.3s;
   }
+  .gallery-card:hover { border-color: var(--accent); }
 
   .gallery-card img {
     width: 100%;
@@ -206,6 +226,12 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     font-weight: 700;
+  }
+
+  .gallery-card .overlay p {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 4px;
   }
 
   /* Links */
@@ -265,18 +291,220 @@
 
   .link-card:hover .arrow { transform: translateX(4px); }
 
+  /* Wechat Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.show { display: flex; }
+
+  .modal-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    max-width: 320px;
+    text-align: center;
+  }
+
+  .modal-box img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .modal-box p {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .modal-close {
+    display: block;
+    margin-top: 16px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 10px 24px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    width: 100%;
+  }
+
+  /* Video Modal */
+  .video-input-wrap {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .video-input-wrap input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .video-input-wrap input:focus { border-color: var(--accent); }
+  .video-input-wrap input::placeholder { color: #444; }
+
+  .btn-add {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .btn-add:hover { background: var(--accent2); }
+
+  .video-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .video-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .video-thumb {
+    width: 80px;
+    height: 50px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  .video-info { flex: 1; min-width: 0; }
+
+  .video-title {
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .video-url {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 4px;
+  }
+
+  .video-item a {
+    color: var(--accent);
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .video-item a:hover { color: var(--accent2); }
+
+  /* Match Schedule */
+  .match-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 30px;
+    margin-top: 20px;
+  }
+
+  .match-section h3 {
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    color: var(--accent);
+  }
+
+  .match-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .match-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+  }
+
+  .match-time {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .match-info { font-size: 13px; color: #ccc; }
+
+  .btn-join {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 6px 14px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+  .btn-join:hover { background: var(--accent); color: #000; }
+
   /* Comments */
   .comments-section {
     background: var(--surface);
     border: 1px solid var(--border);
     padding: 40px;
-    margin-top: 60px;
+    margin-top: 30px;
   }
 
   .comment-input-wrap {
     display: flex;
     gap: 12px;
     margin-bottom: 30px;
+    flex-wrap: wrap;
   }
 
   .comment-input-wrap input,
@@ -294,18 +522,14 @@
   }
 
   .comment-input-wrap input:focus,
-  .comment-input-wrap textarea:focus {
-    border-color: var(--accent);
-  }
+  .comment-input-wrap textarea:focus { border-color: var(--accent); }
 
   .comment-input-wrap .name-field {
     flex: 0 0 180px;
-    width: 180px;
+    min-width: 140px;
   }
 
-  .comment-input-wrap textarea {
-    height: 80px;
-  }
+  .comment-input-wrap textarea { height: 80px; }
 
   .btn-submit {
     background: var(--accent);
@@ -321,10 +545,28 @@
     transition: background 0.3s;
     white-space: nowrap;
   }
-
   .btn-submit:hover { background: var(--accent2); }
 
-  .comments-list { display: flex; flex-direction: column; gap: 1px; }
+  .comment-presets {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .preset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 12px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .comments-list { display: flex; flex-direction: column; }
 
   .comment-item {
     background: var(--bg);
@@ -338,7 +580,6 @@
   .comment-avatar {
     width: 40px;
     height: 40px;
-    background: var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -357,27 +598,11 @@
     margin-bottom: 8px;
   }
 
-  .comment-name {
-    font-weight: 700;
-    font-size: 14px;
-  }
+  .comment-name { font-weight: 700; font-size: 14px; }
+  .comment-time { font-size: 12px; color: var(--muted); }
+  .comment-text { font-size: 14px; color: #ccc; line-height: 1.6; }
 
-  .comment-time {
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .comment-text {
-    font-size: 14px;
-    color: #ccc;
-    line-height: 1.6;
-  }
-
-  .comment-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 0;
-  }
+  .comment-divider { height: 1px; background: var(--border); }
 
   /* Footer */
   footer {
@@ -392,7 +617,6 @@
 
   @media (max-width: 600px) {
     .stat-item { padding: 20px 24px; }
-    .comment-input-wrap { flex-direction: column; }
     .comment-input-wrap .name-field { flex: none; width: 100%; }
     .comments-section { padding: 24px 16px; }
   }
@@ -411,17 +635,28 @@
   <div class="hero-scroll">▼ SCROLL</div>
 </section>
 
-
-
 <!-- Team Intro -->
-<div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:40px 20px;text-align:center;">
-  <div style="max-width:700px;margin:0 auto;">
-    <div style="font-size:12px;color:var(--accent);letter-spacing:4px;text-transform:uppercase;font-weight:700;margin-bottom:10px;">ABOUT US</div>
-    <p style="font-size:15px;color:#ccc;line-height:2;letter-spacing:1px;">
-      MARK战队成立于2025年，是一支以战术配合为核心的玩家团队。<br>
-      招募要求：需要有素质的队友，服从指挥，热爱PUBG，<br>
-      拒绝外挂与恶意行为。欢迎有团队精神的你加入我们。
-    </p>
+<div class="team-intro">
+  <p>
+    MARK战队成立于2025年，是一支以战术配合为核心的玩家团队。<br>
+    招募要求：需要有素质的队友，服从指挥，热爱PUBG，<br>
+    拒绝外挂与恶意行为。欢迎有团队精神的你加入我们。
+  </p>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">51</div>
+    <div class="stat-label">战队成员</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">2681</div>
+    <div class="stat-label">总击杀数</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">89</div>
+    <div class="stat-label">胜利场次</div>
   </div>
 </div>
 
@@ -432,27 +667,45 @@
   <div class="gallery-grid">
     <div class="gallery-card">
       <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b2b40?w=800&q=80" alt="gaming">
-      <div class="overlay"><span>战术转移</span></div>
+      <div class="overlay">
+        <span>战术转移</span>
+        <p>四人编队战术转移中</p>
+      </div>
     </div>
     <div class="gallery-card">
       <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80" alt="esports">
-      <div class="overlay"><span>决赛圈对峙</span></div>
+      <div class="overlay">
+        <span>决赛圈对峙</span>
+        <p>最后一圈的血腥对决</p>
+      </div>
     </div>
-    <div class="gallery-card">
+    <div class="gallery-card" onclick="document.getElementById('commentInput').value='【约战】今晚 '; document.getElementById('commentInput').focus(); document.querySelector('.section:last-of-type').scrollIntoView({behavior:'smooth'});">
       <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=800&q=80" alt="team">
-      <div class="overlay"><span>四人编队</span></div>
+      <div class="overlay">
+        <span>四人编队</span>
+        <p style="color:#c4ff00;">点击 → 发起约战</p>
+      </div>
     </div>
     <div class="gallery-card">
       <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=800&q=80" alt="action">
-      <div class="overlay"><span>空投争夺</span></div>
+      <div class="overlay">
+        <span>空投争夺</span>
+        <p>空投箱的诱惑与危险</p>
+      </div>
     </div>
-    <div class="gallery-card">
+    <div class="gallery-card" onclick="document.getElementById('videoModal').classList.add('show')">
       <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80" alt="fps">
-      <div class="overlay"><span>钢枪时刻</span></div>
+      <div class="overlay">
+        <span>钢枪时刻</span>
+        <p style="color:#c4ff00;">点击 → 上传视频链接</p>
+      </div>
     </div>
     <div class="gallery-card">
       <img src="https://images.unsplash.com/photo-1542751110-97427bbecfd4?w=800&q=80" alt="victory">
-      <div class="overlay"><span>大吉大利 今晚吃鸡</span></div>
+      <div class="overlay">
+        <span>大吉大利 今晚吃鸡</span>
+        <p>冠军时刻</p>
+      </div>
     </div>
   </div>
 </div>
@@ -462,37 +715,91 @@
   <div class="section-title">COMMUNITY</div>
   <h2>交流入口</h2>
   <div class="links-grid">
-    <a href="#" class="link-card" onclick="alert('请填写你的 Discord 服务器链接'); return false;">
-      <h3>💬 Discord 频道</h3>
-      <p>实时语音指挥 / 战术讨论</p>
+    <a href="https://www.yy.com/1463371618" target="_blank" class="link-card">
+      <h3>🎧 YY 频道</h3>
+      <p>YY账号：1463371618<br>语音指挥 / 战术讨论</p>
       <span class="arrow">→</span>
     </a>
-    <a href="#" class="link-card" onclick="alert('请填写你的 QQ 群号'); return false;">
-      <h3>💬 QQ 群组</h3>
-      <p>日常交流 / 比赛组队</p>
-      <span class="arrow">→</span>
-    </a>
-    <a href="#" class="link-card" onclick="alert('请填写你的 微信群二维码链接'); return false;">
+    <a href="#" class="link-card" onclick="document.getElementById('wechatModal').classList.add('show'); return false;">
       <h3>💬 微信群</h3>
       <p>扫码入群 / 战队公告</p>
       <span class="arrow">→</span>
     </a>
-    <a href="#" class="link-card" onclick="alert('请填写你的 B站 直播间链接'); return false;">
-      <h3>🎮 B站直播</h3>
-      <p>训练赛直播 / 录像回放</p>
+    <a href="#" class="link-card" onclick="document.getElementById('videoModal').classList.add('show'); return false;">
+      <h3>🎬 钢枪时刻</h3>
+      <p>上传你的精彩视频 / 精彩集锦</p>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="link-card" onclick="document.querySelector('.section:last-of-type').scrollIntoView({behavior:'smooth'}); return false;">
+      <h3>📋 约战大厅</h3>
+      <p>发起约战 / 报名参加训练赛</p>
       <span class="arrow">→</span>
     </a>
   </div>
 </div>
 
-<!-- Comments -->
-<div class="section" style="padding-bottom: 80px;">
-  <div class="section-title">MESSAGE BOARD</div>
-  <h2>留言区</h2>
+<!-- Video Modal -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal-box" style="max-width:500px;background:var(--surface);border:1px solid var(--border);padding:30px;max-height:90vh;overflow-y:auto;">
+    <div style="font-size:13px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:16px;">🎬 钢枪时刻 - 视频链接</div>
+    <p style="font-size:12px;color:#555;margin-bottom:16px;line-height:1.6;">输入B站（bilibili）或 YouTube 视频链接，分享你的钢枪时刻</p>
+    <div class="video-input-wrap">
+      <input type="text" id="videoUrlInput" placeholder="https://www.bilibili.com/video/BV...">
+      <button class="btn-add" onclick="addVideo()">添加</button>
+    </div>
+    <div id="videoList" class="video-list"></div>
+    <button class="modal-close" onclick="document.getElementById('videoModal').classList.remove('show')">关闭</button>
+  </div>
+</div>
 
+<!-- Wechat Modal -->
+<div class="modal-overlay" id="wechatModal">
+  <div class="modal-box">
+    <img src="https://raw.githubusercontent.com/kinshark1110-dotcom/pubg-team/main/wechat.jpg" alt="微信群二维码">
+    <p>微信扫码加入 MARK 战队群</p>
+    <button class="modal-close" onclick="document.getElementById('wechatModal').classList.remove('show')">关闭</button>
+  </div>
+</div>
+
+<!-- Comments + Match -->
+<div class="section" style="padding-bottom:80px;">
+  <div class="section-title">MESSAGE BOARD</div>
+  <h2>留言区 & 约战</h2>
+
+  <!-- Match Schedule -->
+  <div class="match-section">
+    <h3>📅 近期约战时间</h3>
+    <div class="match-schedule" id="matchSchedule">
+      <div class="match-item">
+        <div class="match-time">今晚<br>21:00</div>
+        <div class="match-info">训练赛 - 海岛地图<br><span style="font-size:11px;color:#555;">已报名：4/4</span></div>
+        <button class="btn-join" onclick="joinMatch(this)">已满</button>
+      </div>
+      <div class="match-item">
+        <div class="match-time">明晚<br>20:00</div>
+        <div class="match-info">排位冲分 - 四人模式<br><span style="font-size:11px;color:#555;">已报名：2/4</span></div>
+        <button class="btn-join" onclick="joinMatch(this)">报名</button>
+      </div>
+      <div class="match-item">
+        <div class="match-time">周三<br>21:00</div>
+        <div class="match-info">杯赛练习赛<br><span style="font-size:11px;color:#555;">已报名：1/4</span></div>
+        <button class="btn-join" onclick="joinMatch(this)">报名</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comments -->
   <div class="comments-section">
-    <form class="comment-input-wrap" id="commentForm" onsubmit="return false;">
-      <input type="text" class="name-field" id="nameInput" placeholder="你的名字" maxlength="20">
+    <div class="comment-presets">
+      <span style="font-size:11px;color:#555;line-height:2.2;">快捷发言：</span>
+      <button class="preset-btn" onclick="setComment('【约战】今晚有空一起打吗？')">约战</button>
+      <button class="preset-btn" onclick="setComment('今晚训练赛有人吗？')">训练赛</button>
+      <button class="preset-btn" onclick="setComment('新人求带，想加入战队')">新人求带</button>
+      <button class="preset-btn" onclick="setComment('今天吃鸡了！爽！')">吃鸡庆祝</button>
+    </div>
+
+    <form class="comment-input-wrap" onsubmit="return false;">
+      <input type="text" id="nameInput" placeholder="你的名字" maxlength="20">
       <textarea id="commentInput" placeholder="说点什么..." maxlength="500"></textarea>
       <button class="btn-submit" onclick="addComment()">发布</button>
     </form>
@@ -502,19 +809,69 @@
 </div>
 
 <footer>
-  <p>PUBG TEAM COMMUNITY &nbsp;|&nbsp; 请替换为你的战队名 &nbsp;|&nbsp; 2025</p>
+  <p>MARK TEAM COMMUNITY &nbsp;|&nbsp; 队长 · GentleMen_ceo &nbsp;|&nbsp; YY · 1463371618 &nbsp;|&nbsp; 2025</p>
 </footer>
 
 <script>
-  // 初始留言
+  // --- Videos ---
+  let videos = [];
+
+  function addVideo() {
+    const input = document.getElementById('videoUrlInput');
+    let url = input.value.trim();
+    if (!url) return;
+    if (!url.startsWith('http')) url = 'https://' + url;
+    let title = url;
+    if (url.includes('bilibili.com')) title = 'B站视频 ' + (url.match(/BV\w+/)?.[0] || '精彩视频');
+    else if (url.includes('youtube.com') || url.includes('youtu.be')) title = 'YouTube 视频';
+    else if (url.includes('douyin.com')) title = '抖音视频';
+    else title = url.split('/').pop().substring(0, 30) || '视频链接';
+
+    videos.push({ title, url });
+    input.value = '';
+    renderVideos();
+  }
+
+  function renderVideos() {
+    const list = document.getElementById('videoList');
+    if (videos.length === 0) {
+      list.innerHTML = '<p style="color:#444;font-size:13px;padding:12px 0;">暂无视频链接，点击上方添加</p>';
+      return;
+    }
+    list.innerHTML = videos.map((v, i) => `
+      <div class="video-item">
+        <div class="video-thumb">🎬</div>
+        <div class="video-info">
+          <div class="video-title">${v.title}</div>
+          <div class="video-url">${v.url}</div>
+        </div>
+        <a href="${v.url}" target="_blank">观看</a>
+      </div>`).join('');
+  }
+
+  // --- Match ---
+  function joinMatch(btn) {
+    if (btn.textContent === '已满') return;
+    btn.textContent = '已报名';
+    btn.style.background = 'var(--accent)';
+    btn.style.color = '#000';
+    btn.style.borderColor = 'var(--accent)';
+  }
+
+  // --- Comments ---
   const initialComments = [
     { name: '钢枪小王子', time: '2小时前', text: '今晚训练赛打得不错！第三把配合很到位，继续加油💪' },
     { name: '指挥员阿杰', time: '5小时前', text: '下周杯赛大家记得准时上线，19:00集合' },
-    { name: '老猫', time: '昨天', text: '新来的兄弟多练练身法，枪法可以学，但意识要靠自己悟' },
+    { name: 'GentleMen_ceo', time: '昨天', text: '新赛季开始了，大家抓紧时间冲分！' },
     { name: '空投捡漏王', time: '昨天', text: '今天又吃鸡了！四个人打配合真的爽' },
   ];
 
   let comments = [...initialComments];
+
+  function setComment(text) {
+    document.getElementById('commentInput').value = text;
+    document.getElementById('commentInput').focus();
+  }
 
   function renderComments() {
     const list = document.getElementById('commentsList');
@@ -522,21 +879,19 @@
       list.innerHTML = '<p style="color:#555;padding:20px 0;text-align:center;">暂无留言，来抢沙发吧！</p>';
       return;
     }
+    const avatars = ['#e8810a','#c4ff00','#ff3b3b','#00b4d8','#7b2d8b','#2ecc71'];
     list.innerHTML = comments.map((c, i) => {
-      const initial = c.name.charAt(0).toUpperCase();
-      const colors = ['#e8810a','#c4ff00','#ff3b3b','#00b4d8','#7b2d8b','#2ecc71'];
-      const color = colors[i % colors.length];
-      return `
-        <div class="comment-item" style="animation: fadeIn 0.4s ease ${i*0.05}s both">
-          <div class="comment-avatar" style="background:${color}">${initial}</div>
-          <div class="comment-body">
-            <div class="comment-meta">
-              <span class="comment-name">${c.name}</span>
-              <span class="comment-time">${c.time}</span>
-            </div>
-            <div class="comment-text">${c.text}</div>
+      const color = avatars[i % avatars.length];
+      return `<div class="comment-item" style="animation:fadeIn 0.4s ease ${i*0.05}s both">
+        <div class="comment-avatar" style="background:${color}">${c.name.charAt(0).toUpperCase()}</div>
+        <div class="comment-body">
+          <div class="comment-meta">
+            <span class="comment-name">${c.name}</span>
+            <span class="comment-time">${c.time}</span>
           </div>
-        </div>`;
+          <div class="comment-text">${c.text}</div>
+        </div>
+      </div>`;
     }).join('<div class="comment-divider"></div>');
   }
 
@@ -545,17 +900,16 @@
     const text = document.getElementById('commentInput').value.trim();
     if (!text) { alert('留言内容不能为空'); return; }
     const now = new Date();
-    const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
     comments.unshift({ name, time: '刚刚', text });
     document.getElementById('commentInput').value = '';
     renderComments();
   }
 
-  // 快捷键 Ctrl+Enter 发留言
   document.getElementById('commentInput').addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.key === 'Enter') addComment();
   });
 
+  renderVideos();
   renderComments();
 </script>
 
